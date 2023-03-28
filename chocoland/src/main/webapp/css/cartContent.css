@@ -1,0 +1,21 @@
+
+
+.confirmation-body
+{
+    margin-top: 100px;
+    margin-left: 100px;
+    margin-right:100px;
+    margin-bottom: 150px;
+}
+
+
+.container {
+    max-width: 960px;
+    padding-left:50px;
+  }
+
+  .lh-condensed { 
+    line-height: 1.25;
+  }
+
+  

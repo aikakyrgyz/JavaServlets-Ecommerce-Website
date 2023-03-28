@@ -1,0 +1,202 @@
+<%@ page import = "java.io.*,java.util.*,java.sql.*"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1" isELIgnored="false"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Website</title>
+    <link rel="stylesheet" type="text/css" href="../css/index.css">
+    <link rel="stylesheet" type="text/css" href="../css/cartContent.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.css"rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+
+  <header class="navbar-header">
+    <a href="#" class="logo">Chocoland</a>
+    <ul class="nav-bar">
+        <li><a href="http://localhost:8080/chocoland/">Home</a></li>
+        <li><a href="products">Products</a></li>
+        <li><a href="previous-orders">My Orders</a></li>
+        <li><a href="#contact">About</a></li>
+    </ul>
+    <div class="header-icons">
+        <a href="cart"><i class='bx bx-cart-alt'></i></a>
+        <div id="side-bar-icon"><i class='bx bx-sidebar'></i></div>
+    </div>
+</header>
+
+
+<section class="h-100 h-custom" style="background-color: #eee;">
+    <div class="container py-5 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col">
+          <div class="card">
+            <div class="card-body p-4">
+  
+              <div class="row">
+  
+                <div class="col-lg-7">
+                  <h5 class="mb-3"><a href="./products" class="text-body"><i
+                        class="fas fa-long-arrow-alt-left me-2"></i>Continue shopping</a></h5>
+                  <hr>
+  
+                  <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div>
+                      <p class="mb-1">Shopping cart</p>
+                      <p class="mb-0">You have ${sessionScope.cart.size()} item(s) in your cart</p>
+                    </div>
+                  </div>
+                  <c:set var="total" value="0"></c:set>
+                  <c:forEach var="cartItem" items="${sessionScope.cart}">
+                    <c:set var="total" value="${total + cartItem.product.cost * cartItem.quantity }"></c:set>
+                      <div class="card mb-3">
+                        <div class="card-body">
+                          <div class="d-flex justify-content-between">
+                            <div class="d-flex flex-row align-items-center">
+                              <div>
+                                <img
+                                  src=${cartItem.product.image}
+                                  class="img-fluid rounded-3" alt="Your chocolate" style="width: 65px;">
+                              </div>
+                              <div class="ms-3">
+                                <h5>${cartItem.product.name}</h5>
+                                <p class="small mb-0">ID: ${cartItem.product.id}</p>
+                              </div>
+                            </div>
+                            <div class="d-flex flex-row align-items-center">
+                              <div style="width: 100px;">
+                                <h5 class="fw-normal mb-0 ">Qty: ${cartItem.quantity}</h5>
+                              </div>
+                              <div style="width: 80px;">
+                                <h5 class="mb-0">$${cartItem.product.cost}</h5>
+                              </div>
+                              <a href="#!" style="color: #cecece;"><i class="fas fa-trash-alt"></i></a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                </c:forEach>
+
+                </div>
+                <div class="col-lg-5">
+  
+                  <div class="card bg-primary text-white rounded-3 ">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h5 class="mb-0">Card details</h5>
+                        <img src="https://doesmycatloveme.com/wp-content/uploads/2019/06/scared-cat.jpg"
+                          class="img-fluid rounded-3" style="width: 45px;" alt="Avatar">
+                      </div>
+  
+                      <p class="small mb-2">Card type</p>
+                      <a href="#!" type="submit" class="text-white"><i
+                          class="fab fa-cc-mastercard fa-2x me-2"></i></a>
+                      <a href="#!" type="submit" class="text-white"><i
+                          class="fab fa-cc-visa fa-2x me-2"></i></a>
+                      <a href="#!" type="submit" class="text-white"><i
+                          class="fab fa-cc-amex fa-2x me-2"></i></a>
+                      <a href="#!" type="submit" class="text-white"><i class="fab fa-cc-paypal fa-2x"></i></a>
+  
+                      <form class="mt-4" action="order-submit" method="POST" id="order-submit-form">
+                        <div class="form-outline form-white mb-4">
+                          <input type="text" id="typeName" class="form-control form-control-lg" size="17"
+                            placeholder="Cardholder's Name" />
+                          <label class="form-label" for="typeName">Cardholder's Name</label>
+                        </div>
+  
+                        <div class="form-outline form-white mb-4">
+                          <input type="text" id="typeText" class="form-control form-control-lg" size="17"
+                            placeholder="1234 5678 9012 3457" minlength="19" maxlength="19" />
+                          <label class="form-label" for="typeText">Card Number</label>
+                        </div>
+  
+                        <div class="row mb-4">
+                          <div class="col-md-6">
+                            <div class="form-outline form-white">
+                              <input type="text" id="typeExp" class="form-control form-control-lg"
+                                placeholder="MM/YYYY" size="7" id="exp" minlength="7" maxlength="7" />
+                              <label class="form-label" for="typeExp">Expiration</label>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-outline form-white">
+                              <input type="password" id="typeText" class="form-control form-control-lg"
+                                placeholder="&#9679;&#9679;&#9679;" size="1" minlength="3" maxlength="3" />
+                              <label class="form-label" for="typeText">CVV</label>
+                            </div>
+                          </div>
+                        </div>
+      
+
+                        <input type="hidden" name="firstName" value="Aika">
+                        <input type="hidden" name="lastName" value="Kubanychbek">
+                        
+
+
+                        <button type="submit" form="order-submit-form" value="Submit" class="btn btn-info btn-block btn-lg">
+                          <div class="d-flex justify-content-between">
+                            <span>$${total + total*0.1}</span>
+                            <span>Checkout</span>
+                            <!-- <span><input type="submit" value="Checkout"></span> -->
+                            <!-- <span>Checkout <i class="fas fa-long-arrow-alt-right ms-2"></i></span> -->
+                          </div>
+                        </button>
+
+                      </form>
+  
+                      <hr class="my-4">
+  
+                      <div class="d-flex justify-content-between">
+                        <p class="mb-2">SubTotal</p>
+                        <p class="mb-2">$${total}</p>
+                      </div>
+  
+                      <div class="d-flex justify-content-between">
+                        <p class="mb-2">Tax</p>
+                        <p class="mb-2">$${total*0.1}</p>
+                      </div>
+  
+                      <div class="d-flex justify-content-between mb-4">
+                        <p class="mb-2">Total (Incl. taxes)</p>
+                        <p class="mb-2">$${total + total*0.1}</p>
+                      </div>
+  
+                      <!-- <button type="button" class="btn btn-info btn-block btn-lg">
+                        <div class="d-flex justify-content-between">
+                          <span>$${total + total*0.1}</span>
+                          <span>Checkout <i class="fas fa-long-arrow-alt-right ms-2"></i></span>
+                        </div>
+                      </button> -->
+  
+                    </div>
+                  </div>
+  
+                </div>
+  
+              </div>
+  
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <script>
+        const header = document.querySelector(".navbar-header");
+        window.addEventListener("scroll", () => {
+      header.classList.toggle("sticky", window.scrollY > 0);});
+  </script>
+  </body>
+  </html>

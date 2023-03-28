@@ -1,0 +1,3 @@
+[submodule "chocoland/src/main/react-front"]
+	path = chocoland/src/main/react-front
+	url = git@github.com:INF124-W22/assignment-2-team3.git
